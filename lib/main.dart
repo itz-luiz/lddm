@@ -37,8 +37,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Meus hábitos',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      theme: ThemeData(appBarTheme: 
+        const AppBarTheme(
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.deepPurple,
+        )
+      ),
       home: TelaHabitos(futuro: mostrarHabitos()),
     );
   }
@@ -82,47 +88,7 @@ class TelaHabitos extends StatelessWidget {
       },
     ),
   );
-  // State<MyHomePage> createState() => _MyHomePageState();
 }
-
-/*
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-
-
-  late final Future<List<Habito>> _futuro;
-
-  void initState() {
-    super.initState();
-    _futuro = mostrarHabitos();
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(mainAxisAlignment: .center, children: [const Text("a")]),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
-*/
 
 class Habito {
   final String titulo;
