@@ -4,50 +4,92 @@ void main() {
   runApp(const MyApp());
 }
 
+Future<List<Habito>> mostrarHabitos() async {
+  await Future.delayed(const Duration(seconds: 5));
+
+  return [
+    Habito(
+      titulo: 'Beber água',
+      meta: 'Meta: 4L por dia',
+      icone: Icons.local_drink,
+    ),
+    Habito(
+      titulo: 'Academia',
+      meta: 'Meta: 5x por semana',
+      icone: Icons.fitness_center,
+    ),
+    Habito(
+      titulo: 'Dormir',
+      meta: 'Meta: 7-8h por dia',
+      icone: Icons.bed
+    ),
+    Habito(
+      titulo: 'Estudar',
+      meta: 'Meta: 4h por dia',
+      icone: Icons.code
+    ),
+  ];
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Meus hábitos',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: TelaHabitos(futuro: mostrarHabitos()),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class TelaHabitos extends StatelessWidget {
+  const TelaHabitos({super.key, required this.futuro});
 
-  final String title;
+  final Future<List<Habito>> futuro;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: const Text('Meus hábitos')),
+    body: FutureBuilder<List<Habito>>(
+      future: futuro,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text('Não foi possível carregar os hábitos'),
+          );
+        }
+
+        final habitos = snapshot.data!;
+        if (habitos.isEmpty) {
+          return const Center(child: Text('Nenhum hábito salvo na lista.'));
+        }
+
+        return ListView(
+          children: [
+            for (final h in habitos)
+              ListTile(
+                leading: Icon(h.icone),
+                title: Text(h.titulo),
+                subtitle: Text(h.meta),
+              ),
+          ],
+        );
+      },
+    ),
+  );
+  // State<MyHomePage> createState() => _MyHomePageState();
 }
 
+/*
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  Future<List<Habito>> mostrarHabitos() async {
-    await Future.delayed(const Duration(seconds: 5));
 
-    return [
-      Habito(
-        titulo: 'Beber água',
-        meta: 'Meta: 4L por dia',
-        icone: Icons.local_drink,
-      ),
-      Habito(
-        titulo: 'Academia',
-        meta: 'Meta: 5x por semana',
-        icone: Icons.fitness_center,
-      ),
-      Habito(titulo: 'Dormir', meta: 'Meta: 7-8h por dia', icone: Icons.bed),
-      Habito(titulo: 'Estudar', meta: 'Meta: 4h por dia', icone: Icons.code),
-    ];
-  }
 
   late final Future<List<Habito>> _futuro;
 
@@ -70,10 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [const Text()],
-        ),
+        child: Column(mainAxisAlignment: .center, children: [const Text("a")]),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
@@ -83,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+*/
 
 class Habito {
   final String titulo;
