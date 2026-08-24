@@ -18,16 +18,8 @@ Future<List<Habito>> mostrarHabitos() async {
       meta: 'Meta: 5x por semana',
       icone: Icons.fitness_center,
     ),
-    Habito(
-      titulo: 'Dormir',
-      meta: 'Meta: 7-8h por dia',
-      icone: Icons.bed
-    ),
-    Habito(
-      titulo: 'Estudar',
-      meta: 'Meta: 4h por dia',
-      icone: Icons.code
-    ),
+    Habito(titulo: 'Dormir', meta: 'Meta: 7-8h por dia', icone: Icons.bed),
+    Habito(titulo: 'Estudar', meta: 'Meta: 4h por dia', icone: Icons.code),
   ];
 }
 
@@ -39,11 +31,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Meus hábitos',
-      theme: ThemeData(appBarTheme: 
-        const AppBarTheme(
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
           foregroundColor: Colors.white,
           backgroundColor: Colors.deepPurple,
-        )
+        ),
       ),
       home: TelaHabitos(futuro: mostrarHabitos()),
     );
@@ -74,7 +66,6 @@ class TelaHabitos extends StatelessWidget {
         if (habitos.isEmpty) {
           return const Center(child: Text('Nenhum hábito salvo na lista.'));
         }
-
         return ListView(
           children: [
             for (final h in habitos)
