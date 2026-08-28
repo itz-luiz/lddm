@@ -78,68 +78,75 @@ class TelaDetalhes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cores = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F7FB),
+      backgroundColor: cores.surface,
       appBar: AppBar(
-        title: Text(
-          h.titulo,
-          // style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: Text(h.titulo),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.deepPurple,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.grey),
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(
+                    left: 88.0,
+                    top: 16.0,
+                    right: 16.0,
+                    bottom: 16.0,
+                  ),
+                  decoration: BoxDecoration(
+                    color: cores.primary,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: cores.outlineVariant),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        h.titulo,
+                        style: TextStyle(
+                          color: cores.onPrimary,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        h.meta,
+                        style: TextStyle(
+                          color: cores.onPrimary.withValues(alpha: 0.7),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  left: 16,
+                  top: 14,
+                  child: CircleAvatar(
                     radius: 28,
-                    backgroundColor: Colors.white,
-                    child: Icon(h.icone, size: 32, color: Colors.deepPurple),
+                    backgroundColor: cores.surface,
+                    child: Icon(h.icone, size: 32, color: cores.primary),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          h.titulo,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          h.meta,
-                          style: const TextStyle(
-                            color: Colors.white60,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
 
             Row(
               children: [
-                construirCard('7', 'streak'),
+                construirCard(context, '7', 'streak'),
                 const SizedBox(width: 8),
-                construirCard('5 / 8', 'hoje'),
+                construirCard(context, '5 / 8', 'hoje'),
                 const SizedBox(width: 8),
-                construirCard('10', 'meta de dias'),
+                construirCard(context, '10', 'meta de dias'),
               ],
             ),
 
@@ -149,28 +156,27 @@ class TelaDetalhes extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: cores.surface,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.grey),
+                border: Border.all(color: cores.outlineVariant),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     "Sobre este hábito",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple,
+                      color: cores.primary,
                     ),
                   ),
-                  SizedBox(height: 12),
-
+                  const SizedBox(height: 12),
                   Text(
                     "Acompanhe e registre suas metas diariamente para manter a sua streak!",
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.blueGrey,
+                      color: cores.onSurfaceVariant,
                       height: 1.4,
                     ),
                   ),
@@ -184,30 +190,34 @@ class TelaDetalhes extends StatelessWidget {
   }
 }
 
-// /*
-Widget construirCard(String valor, String legenda) {
+Widget construirCard(BuildContext context, String valor, String legenda) {
+  final cores = Theme.of(context).colorScheme;
+
   return Expanded(
     child: Container(
       padding: const EdgeInsets.symmetric(vertical: 20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cores.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey),
+        border: Border.all(color: cores.outlineVariant),
       ),
       child: Column(
         children: [
           Text(
             valor,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.deepPurple,
+              color: cores.primary,
             ),
           ),
           const SizedBox(height: 2),
           Text(
             legenda,
-            style: const TextStyle(fontSize: 12, color: Colors.blueGrey),
+            style: TextStyle(
+              fontSize: 12,
+              color: cores.onSurfaceVariant,
+            ),
           ),
         ],
       ),
@@ -215,7 +225,6 @@ Widget construirCard(String valor, String legenda) {
   );
 }
 
-// */
 class Habito {
   final String titulo;
   final String meta;
